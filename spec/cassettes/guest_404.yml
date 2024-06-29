@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.ownerrez.com/v2/guests/1
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.9.1
+      Authorization:
+      - Basic YnJlbmRhbkB0ZW5kcmljaC5uZXQ6cHRfdWZwZXZxY3YwbjFhZ3FqbXhlcXV0MDd4OGRqOXJsazI=
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      date:
+      - Thu, 27 Jun 2024 02:05:54 GMT
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '93'
+      connection:
+      - keep-alive
+      cache-control:
+      - no-store, must-revalidate, no-cache
+      pragma:
+      - no-cache
+      expires:
+      - '0'
+      api-supported-versions:
+      - 1.0, 2.0
+    body:
+      encoding: UTF-8
+      string: '{"messages":["Expected entity Guest:Id:1 not found."],"status":"not_found","status_code":404}'
+  recorded_at: Thu, 27 Jun 2024 02:05:54 GMT
+recorded_with: VCR 6.2.0

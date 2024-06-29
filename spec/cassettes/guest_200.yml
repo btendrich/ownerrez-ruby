@@ -1,0 +1,39 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.ownerrez.com/v2/guests/613782149
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v2.9.1
+      Authorization:
+      - Basic YnJlbmRhbkB0ZW5kcmljaC5uZXQ6cHRfdWZwZXZxY3YwbjFhZ3FqbXhlcXV0MDd4OGRqOXJsazI=
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Thu, 27 Jun 2024 02:06:50 GMT
+      content-type:
+      - application/json; charset=utf-8
+      content-length:
+      - '406'
+      connection:
+      - keep-alive
+      cache-control:
+      - no-store, must-revalidate, no-cache
+      pragma:
+      - no-cache
+      expires:
+      - '0'
+      api-supported-versions:
+      - 1.0, 2.0
+    body:
+      encoding: UTF-8
+      string: '{"addresses":[{"city":"Duluth","country":"UNITED STATES","id":693080488,"is_default":false,"postal_code":"55803","state":"Minnesota","street1":"123 Some Street","type":"home"}],"email_addresses":[{"address":"steve0@gmail.com","id":523846959,"is_default":false}],"first_name":"Steve","id":613782149,"last_name":"Smith","phones":[{"id":297536370,"is_default":false,"number":"+1 614-555-1212"}]}'
+  recorded_at: Thu, 27 Jun 2024 02:06:50 GMT
+recorded_with: VCR 6.2.0
