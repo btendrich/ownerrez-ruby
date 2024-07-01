@@ -2,6 +2,7 @@
 require 'bigdecimal'
 
 require_relative 'ownerrez/version'
+require_relative 'ownerrez/errors'
 require_relative 'ownerrez/helpers'
 require_relative 'ownerrez/connection'
 
@@ -21,15 +22,4 @@ require_relative 'ownerrez/models/booking'
 module OwnerRez
   API_BASE_URL = 'https://api.ownerrez.com/v2/'
 
-  class Error < StandardError
-  end
-
-  class ApiError < StandardError
-    def initialize(message: nil, faraday_error_class: nil)
-      super(message)
-      @faraday_error_class = faraday_error_class
-    end
-
-    attr_reader :faraday_error_class
-  end
 end

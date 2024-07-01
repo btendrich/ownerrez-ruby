@@ -87,7 +87,7 @@ module OwnerRez
           instance_variable_set("@#{parameter_name}", value)
 
           # abuse the helper method to create an accessor method for the instance variable for this field
-          self.class.send(:attr_accessor, parameter_name)
+          self.class.send(:attr_reader, parameter_name)
         end
       end
     end

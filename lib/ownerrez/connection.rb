@@ -28,7 +28,11 @@ module OwnerRez
     end
 
     def get_guest(id:)
-      response = request(http_method: :get, endpoint: "guests/#{id.to_i}")
+      begin
+        response = request(http_method: :get, endpoint: "guests/#{id.to_i}")
+      rescue OwnerRez::ApiError404
+        return nil
+      end
       OwnerRez::Model::Guest.new(response[:body])
     end
 
@@ -78,6 +82,8 @@ module OwnerRez
         status: response.status,
         body: response.body
       }
+    rescue Faraday::ResourceNotFound
+      raise OwnerRez::ApiError404
     rescue Faraday::Error => e
       raise OwnerRez::ApiError.new(
         message: e.message,
