@@ -1,5 +1,9 @@
 # frozen_string_literal: true
+
 require 'bigdecimal'
+require 'uri'
+# require 'faraday'
+require 'oauth2'
 
 require_relative 'ownerrez/version'
 require_relative 'ownerrez/errors'
@@ -10,16 +14,22 @@ require_relative 'ownerrez/models/generic'
 
 require_relative 'ownerrez/models/phone'
 require_relative 'ownerrez/models/address'
-require_relative 'ownerrez/models/emailaddress'
-require_relative 'ownerrez/models/fieldvalue'
+require_relative 'ownerrez/models/email_address'
+require_relative 'ownerrez/models/field_value'
 require_relative 'ownerrez/models/guest'
 
-require_relative 'ownerrez/models/bookingdoorcode'
-require_relative 'ownerrez/models/bookingcharge'
-require_relative 'ownerrez/models/guestpartial'
+require_relative 'ownerrez/models/booking_door_code'
+require_relative 'ownerrez/models/booking_charge'
+require_relative 'ownerrez/models/guest_partial'
 require_relative 'ownerrez/models/booking'
 
-module OwnerRez
-  API_BASE_URL = 'https://api.ownerrez.com/v2/'
+require_relative 'ownerrez/models/property'
 
+require_relative 'ownerrez/models/field'
+require_relative 'ownerrez/models/field_definition'
+
+module OwnerRez
+  API_BASE_URI = 'https://api.ownerrez.com/v2/'
+  OAUTH_AUTHORIZE_URI = 'https://app.ownerrez.com/oauth/authorize'
+  OAUTH_TOKEN_URI = 'https://app.ownerrez.com/oauth/access_token'
 end

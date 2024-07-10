@@ -8,7 +8,19 @@ require 'dotenv/load'
 # You can add fixtures and/or initialization code here to make experimenting
 # with your gem easier. You can also use a different console, if you like.
 
-$conn = OwnerRez::Connection.new(api_username: ENV['API_USERNAME'], api_token: ENV['API_TOKEN'])
+$conn = OwnerRez::Connection.new(redirect_uri: ENV['OWNERREZ_REDIRECT_URI'], client_id: ENV['OWNERREZ_CLIENT_ID'],
+                                 client_secret: ENV['OWNERREZ_CLIENT_SECRET'])
+
+token_set = {
+  'token_type' => 'bearer',
+  'scope' => 'all',
+  'user_id' => 347_423_378,
+  'user_display_name' => 'Faithful Escapes Properties',
+  'access_token' => ENV['OWNERREZ_ACCESS_TOKEN'],
+  'refresh_token' => nil,
+  'expires_at' => nil
+}
+$conn.set_token_set(token_set)
 
 require 'irb'
 IRB.start(__FILE__)

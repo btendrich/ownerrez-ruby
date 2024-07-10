@@ -7,23 +7,24 @@ module OwnerRez
       FIELDS = {}.freeze
 
       def initialize(data)
-        raise OwnerRez::Error.new("trying to initialize with '#{data.inspect}'") unless data.respond_to? :each
+        raise OwnerRez::Error, "trying to initialize with '#{data.inspect}'" unless data.respond_to? :each
+
         # iterate through passed data hash
-        data.each do |key, value|
+        data.each_key do |key|
           # raise error if there is data that doesn't corrispond with a defined field
-          raise OwnerRez::Error.new("unknown data field #{key}") unless self.class::FIELDS.has_key? key
+          raise OwnerRez::Error, "unknown data field #{key}" unless self.class::FIELDS.key? key
         end
-        
+
         # grab the class variable and iterate through it
         self.class::FIELDS.each do |field, field_info|
           # if this is a required field, check if it exists in the passed data hash
-          if field_info.fetch(:required, nil)
-            raise OwnerRez::Error.new("missing required field #{field}") unless data.has_key? field
+          if field_info.fetch(:required, nil) && !(data.key? field)
+            raise OwnerRez::Error, "missing required field #{field}"
           end
-          
+
           # set the value of the field to the value returned by Faraday (or nil if it doesn't exist) by default
           unmapped_value = data.fetch(field, nil)
-          
+
           parameter_name = field_info.fetch(:parameter_name, field.to_s)
           field_type = field_info.fetch(:type, nil)
           field_type = String if field_type.nil?
@@ -59,7 +60,7 @@ module OwnerRez
               begin
                 value = Date.parse(unmapped_value)
               rescue Date::Error
-                raise OwnerRez::Error.new("unable to parse date #{unmapped_value.inspect}")
+                raise OwnerRez::Error, "unable to parse date #{unmapped_value.inspect}"
               end
 
             when 'DateTime'
@@ -67,13 +68,13 @@ module OwnerRez
               begin
                 value = DateTime.parse(unmapped_value)
               rescue Date::Error
-                raise OwnerRez::Error.new("unable to parse datetime #{unmapped_value.inspect}")
+                raise OwnerRez::Error, "unable to parse datetime #{unmapped_value.inspect}"
               end
 
             when 'BigDecimal'
               # if the defiened field type is a datetime, parse the date into a ruby date object and use that
               value = BigDecimal(unmapped_value.to_s)
-              
+
             when 'String'
               value = unmapped_value.to_s
 

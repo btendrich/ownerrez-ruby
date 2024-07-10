@@ -5,38 +5,45 @@ require 'ownerrez'
 
 describe OwnerRez::Connection do
   describe '#new' do
-    it 'fails when called with no api_username/api_token or oauth_client_id parameters' do
-      expect { OwnerRez::Connection.new }.to raise_error('no connection parameters provided')
-    end
-    it 'fails when provided a malformatted oauth_client_id' do
-      expect { OwnerRez::Connection.new(oauth_client_id: 'foo') }.to raise_error('malformatted oauth client_id')
-    end
-    it 'suceeds when provided a valid oauth_client_id' do
-      expect(OwnerRez::Connection.new(oauth_client_id: 'c_foo')).to be_a(OwnerRez::Connection)
-    end
-    it 'fails when called with only an api_username' do
+    it 'fails when called with no client_id' do
       expect do
-        OwnerRez::Connection.new(api_username: 'foo@bar.com')
-      end.to raise_error('provided api_username but not api_token')
+        OwnerRez::Connection.new(client_secret: 's_foo',
+                                 redirect_uri: 'http://localhost/callback')
+      end.to raise_error('missing keyword: :client_id')
     end
-    it 'fails when called with only an api_token' do
+    it 'fails when called with no client_secret' do
       expect do
-        OwnerRez::Connection.new(api_token: 'pt_foobar')
-      end.to raise_error('provided api_token but not api_username')
+        OwnerRez::Connection.new(client_id: 'c_foo',
+                                 redirect_uri: 'http://localhost/callback')
+      end.to raise_error('missing keyword: :client_secret')
     end
-    it 'fails when called with an invalid api_username' do
+    it 'fails when called with no redirect_uri' do
       expect do
-        OwnerRez::Connection.new(api_username: 'foo', api_token: 'pt_foobar')
-      end.to raise_error('malformatted api_username')
+        OwnerRez::Connection.new(client_id: 'c_foo', client_secret: 's_foo')
+      end.to raise_error('missing keyword: :redirect_uri')
     end
-    it 'fails when called with an invalid api_token' do
+
+    it 'fails when provided a malformatted client_id' do
       expect do
-        OwnerRez::Connection.new(api_username: 'foo@bar.com', api_token: 'foobar')
-      end.to raise_error('malformatted api_token')
+        OwnerRez::Connection.new(client_id: 'X_foo', client_secret: 's_foo',
+                                 redirect_uri: 'http://localhost/callback')
+      end.to raise_error('malformatted client_id')
     end
-    it 'suceeds when provided an api_username and api_token' do
-      expect(OwnerRez::Connection.new(api_username: 'foo@bar.com',
-                                      api_token: 'pt_foobar')).to be_a(OwnerRez::Connection)
+    it 'fails when provided a malformatted client_secret' do
+      expect do
+        OwnerRez::Connection.new(client_id: 'c_foo', client_secret: 'X_foo',
+                                 redirect_uri: 'http://localhost/callback')
+      end.to raise_error('malformatted client_secret')
+    end
+    it 'fails when provided a malformatted redirect_uri' do
+      expect do
+        OwnerRez::Connection.new(client_id: 'c_foo', client_secret: 's_foo',
+                                 redirect_uri: 'foo')
+      end.to raise_error('malformatted redirect_uri')
+    end
+    it 'succeeds when provided correctly formatted parameters' do
+      expect(OwnerRez::Connection.new(client_id: 'c_foo', client_secret: 's_foo',
+                                      redirect_uri: 'http://localhost')).to be_a(OwnerRez::Connection)
     end
   end
 end

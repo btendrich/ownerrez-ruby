@@ -11,6 +11,7 @@ GEM
   specs:
     addressable (2.8.6)
       public_suffix (>= 2.0.2, < 6.0)
+    base64 (0.2.0)
     bigdecimal (3.1.8)
     crack (1.0.0)
       bigdecimal
@@ -23,10 +24,23 @@ GEM
       net-http
     forwardable (1.3.3)
     hashdiff (1.1.0)
+    hashie (5.0.0)
     json (2.7.2)
+    jwt (2.8.2)
+      base64
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     net-http (0.4.1)
       uri
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
     public_suffix (5.1.0)
+    rack (3.1.6)
     rake (13.1.0)
     rexml (3.2.6)
     rspec (3.13.0)
@@ -42,8 +56,12 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
     rspec-support (3.13.1)
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
     uri (0.13.0)
     vcr (6.2.0)
+    version_gem (1.1.4)
     webmock (3.23.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -55,6 +73,7 @@ PLATFORMS
 
 DEPENDENCIES
   dotenv
+  oauth2 (~> 2.0)
   ownerrez-ruby!
   rake (~> 13.0)
   rspec (~> 3.13)

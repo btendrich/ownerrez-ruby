@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module OwnerRez
-
   class Error < StandardError
   end
-  
+
   class GuestNotFoundError < StandardError
   end
 
@@ -16,8 +15,7 @@ module OwnerRez
 
     attr_reader :faraday_error_class
   end
-  
+
   class ApiError404 < ApiError
   end
-
 end

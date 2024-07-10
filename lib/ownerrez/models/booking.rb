@@ -4,7 +4,7 @@ module OwnerRez
   module Model
     class Booking < Generic
       FIELDS = {
-        adults: { type: Integer , :required => true},
+        adults: { type: Integer, required: true },
         arrival: { type: Date },
         booked_utc: {
           type: DateTime,
