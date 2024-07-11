@@ -29,7 +29,7 @@ require_relative 'ownerrez/models/field'
 require_relative 'ownerrez/models/field_definition'
 
 module OwnerRez
-  API_BASE_URI = 'https://api.ownerrez.com/v2/'
-  OAUTH_AUTHORIZE_URI = 'https://app.ownerrez.com/oauth/authorize'
-  OAUTH_TOKEN_URI = 'https://app.ownerrez.com/oauth/access_token'
+  API_BASE_URI = 'https://apistage.ownerrez.com/v2/'
+  OAUTH_AUTHORIZE_URI = 'https://appstage.ownerrez.com/oauth/authorize'
+  OAUTH_TOKEN_URI = 'https://appstage.ownerrez.com/oauth/access_token'
 end

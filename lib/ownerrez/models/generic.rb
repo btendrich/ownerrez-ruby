@@ -28,6 +28,8 @@ module OwnerRez
           parameter_name = field_info.fetch(:parameter_name, field.to_s)
           field_type = field_info.fetch(:type, nil)
           field_type = String if field_type.nil?
+          
+          unmapped_value = [] if field_type.to_s == 'Array'
 
           # if there is a value set, parse it (otherwise leave it empty)
           if unmapped_value

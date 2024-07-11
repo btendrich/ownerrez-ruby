@@ -41,41 +41,47 @@ module OwnerRez
       return nil if @token.expires_at.nil? || Time.now.to_i > @token.expires_at
       true
     end
+    
+    def valid?
+      return nil unless @token
+      return nil if expired?
+      true
+    end
 
-    def get_booking(id:)
-      get_single(path: "bookings/#{id.to_i}", object: OwnerRez::Model::Booking)
+    def get_booking(id:, **params)
+      get_single(path: "bookings/#{id.to_i}", object: OwnerRez::Model::Booking, params: params.compact)
     end
 
     def get_bookings(**params)
       get_multiple(path: 'bookings', object: OwnerRez::Model::Booking, params: params.compact)
     end
     
+    def get_field_definition(id:, **params)
+      get_single(path: "fielddefinitions/#{id.to_i}", object: OwnerRez::Model::FieldDefinition, params: params.compact)
+    end
+        
     def get_field_definitions(**params)
       get_multiple(path: 'fielddefinitions', object: OwnerRez::Model::FieldDefinition, params: params.compact)
     end
-    
-    def get_field_definition(id:)
-      get_single(path: "fielddefinitions/#{id.to_i}", object: OwnerRez::Model::FieldDefinition)
-    end
-    
+
     def get_fields(**params)
       get_multiple(path: 'fields', object: OwnerRez::Model::Field, params: params.compact)
     end
     
-    def get_field_definition(id:)
-      get_single(path: "fields/#{id.to_i}", object: OwnerRez::Model::Field)
+    def get_field_definition(id:, **params)
+      get_single(path: "fields/#{id.to_i}", object: OwnerRez::Model::Field, params: params.compact)
     end
 
-    def get_property(id:)
-      get_single(path: "properties/#{id.to_i}", object: OwnerRez::Model::Property)
+    def get_property(id:, **params)
+      get_single(path: "properties/#{id.to_i}", object: OwnerRez::Model::Property, params: params.compact)
     end
 
     def get_properties(**params)
       get_multiple(path: 'properties', object: OwnerRez::Model::Property, params: params.compact)
     end
     
-    def get_guest(id:)
-      get_single(path: "guests/#{id.to_i}", object: OwnerRez::Model::Guest)
+    def get_guest(id:, **params)
+      get_single(path: "guests/#{id.to_i}", object: OwnerRez::Model::Guest, params: params.compact)
     end
 
     def get_guests(**params)
@@ -88,15 +94,18 @@ module OwnerRez
     private
 
     def get_single(path:, object:, params: {})
-      response = token.get(path, params:)
+      response = access_token.get(path, params: params)
       object.new(JSON.parse(response.body, symbolize_names: true))
     end
 
-    def get_multiple(path:, object:, params: {}, maximum: 20)
+    def get_multiple(path:, object:, params: {})
       @objects = []
+      maximum = params.delete(:maximum) || 10
+      
+      puts "Get #{maximum} entries"
 
       while path
-        response = JSON.parse( token.get(path, params: params).body, symbolize_names: true )
+        response = JSON.parse( access_token.get(path, params: params).body, symbolize_names: true )
         @objects.push( *response.fetch(:items, []).map{ |item| object.new(item) } )
         path = response.fetch(:next_page_url, nil)
         break if @objects.count >= maximum
@@ -104,14 +113,9 @@ module OwnerRez
       return @objects
     end
 
-    def authenticated_get(endpoint, **params)
-      access_token.get(endpoint, params:).parsed
-    end
-
     def access_token
       raise OwnerRez::Error, 'No access token. Perform OAuth2 authorization first.' unless @token
-
-      OAuth2::AccessToken.new(@client, @token)
+      @token
     end
 
     def request(http_method:, endpoint:, body: {}); end
